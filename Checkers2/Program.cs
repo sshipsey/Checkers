@@ -98,7 +98,14 @@ namespace Checkers2 {
             return retVal;
         }
     }
-
+    
+    public class Move {
+        public int xi { get; set; }
+        public int yi { get; set; }
+        public int xn { get; set; }
+        public int yn { get; set; }
+    }
+    
     public class Piece {
 
         internal int team { get; set; }
