@@ -11,35 +11,37 @@ namespace Checkers2 {
 
     public class Board {
 
-        internal List<Piece> P1 { get; set; }
-        internal List<Piece> P2 { get; set; }
+        public List<Piece> P { get; set; }
 
         public Board() {
-            P1 = new List<Piece>();
-            P2 = new List<Piece>();
+            P = new List<Piece>();
+
+            for (int i = 0; i < 4; i++) {
+                P.Add((new Piece(1, 2 * i, 0)));
+                P.Add(new Piece(1, 2 * i + 1, 1));
+                P.Add(new Piece(1, 2 * i, 2));
+            }
+
+            //black pieces
+            for (int i = 0; i < 4; i++) {
+                P.Add(new Piece(2, 2 * i + 1, 7));
+                P.Add(new Piece(2, 2 * i, 6));
+                P.Add(new Piece(2, 2 * i + 1, 5));
+            }
         }
 
-        public void addPiece(Piece p) {
-            if (p.team == 1)
-                P1.Add(p);
-            else
-                P2.Add(p);
-        }
         public int checkPosition(int x, int y) {
 
-            foreach (Piece p in P1)
-                if (p.xpos == x && p.ypos == y)
+            foreach (Piece p in P) {
+                if (p.xpos == x && p.ypos == y && p.team == 1)
                     return 1;
-
-            foreach (Piece p in P2)
-                if (p.xpos == x && p.ypos == y)
+                if (p.xpos == x && p.ypos == y && p.team == 2)
                     return 2;
-
+            }
 
             return 0;
         }
         public void printBoard() {
-
 
             string retVal = "";
             retVal += "   _________________\n";
@@ -125,25 +127,12 @@ namespace Checkers2 {
         public static void startGame(Board b) {
 
             List<string> moves = new List<string>();
-
-            //red pieces
-            for (int i = 0; i < 4; i++) {
-                b.addPiece(new Piece(1, 2 * i, 0));
-                b.addPiece(new Piece(1, 2 * i + 1, 1));
-                b.addPiece(new Piece(1, 2 * i, 2));
-            }
-
-            //black pieces
-            for (int i = 0; i < 4; i++) {
-                b.addPiece(new Piece(2, 2 * i + 1, 7));
-                b.addPiece(new Piece(2, 2 * i, 6));
-                b.addPiece(new Piece(2, 2 * i + 1, 5));
-            }
+            
             b.printBoard();
             
-            while (b.P1.Any() && b.P2.Any()) {
+           // while (b.P1.Any() && b.P2.Any()) {
                 
-                foreach (Piece p in b.P2)
+                foreach (Piece p in b.P)
                     moves.AddRange(b.checkValidMoves(p, 2));
 
                 int c = 1;
@@ -153,7 +142,7 @@ namespace Checkers2 {
                 }
                 
                 Console.Read();
-            }
+            //}
         }
     }
 }
