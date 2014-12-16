@@ -87,15 +87,66 @@ namespace Checkers2 {
             return retVal;
 
         }
+        
+        public List<Move> checkJumps(int player) {
 
+            List<Move> moves = new List<Move>();
+            IEnumerable<Piece> p;
+            if (player == 1) {
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos + 1, piece.ypos + 1) == 2
+                     && checkPosition(piece.xpos + 2, piece.ypos + 2) == 0
+                     && piece.team == 1
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 2, pi.ypos + 2, 1));
+                }
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos - 1, piece.ypos + 1) == 2
+                     && checkPosition(piece.xpos - 2, piece.ypos + 2) == 0
+                     && piece.team == 1
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos + 2, 1));
+                }
+            }
+            else {
+                p =
+                   (from piece in P
+                    where checkPosition(piece.xpos + 1, piece.ypos - 1) == 1
+                    && checkPosition(piece.xpos + 2, piece.ypos - 2) == 0
+                    && piece.team == 2
+                    select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 2, pi.ypos - 2, 2));
+                }
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos - 1, piece.ypos - 1) == 1
+                     && checkPosition(piece.xpos - 2, piece.ypos - 2) == 0
+                     && piece.team == 2
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos - 2, 2));
+                }
+
+            }
+
+            moves = moves.OrderBy(x => x.xi).ToList();
+            return moves;
+
+        }
         public List<Move> checkValidMoves(int player) {
 
             //finds and returns a list of valid moves for player 'player'
             List<Move> moves = new List<Move>();
 
-            //this does not work and sucks. we dont want to return a piece,
-            //we want to return a move and aggregate a list of moves.
-            ///cmon man
             IEnumerable<Piece> p;
             if (player == 1) {
                 p =
@@ -152,6 +203,19 @@ namespace Checkers2 {
             p.xpos = m.xn;
             p.ypos = m.yn;
 
+        }
+        public void removePiece(int x, int y) {
+            Piece p = new Piece(0, -1, -1); //invalid piece
+
+            //returns piece at x, y position if x, y is valid position
+            if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
+                p =
+                    (from piece in P
+                     where piece.xpos == x
+                     && piece.ypos == y
+                     select piece).SingleOrDefault();
+            }
+            this.P.Remove(p);
         }
     }
 }
