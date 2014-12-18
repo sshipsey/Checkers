@@ -15,7 +15,14 @@ local.properties
 .classpath
 .settings/
 .loadpath
-
+*.exe
+*.exe.config
+*.pdb
+*.vshost.exe
+*.vshost.exe.config
+*.csproj.*
+*.cache
+*.suo
 # External tool builders
 .externalToolBuilders/
 
