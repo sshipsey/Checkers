@@ -30,6 +30,10 @@ namespace Checkers2 {
                 if (moves.Count == 0) {
                     moves = b.checkValidMoves(this.turn);
                 }
+                if (moves.Count == 0) {
+                    this.isLive = false;
+                    continue;
+                }
                 Console.WriteLine(b.printMoves(moves));
                 input = Console.ReadLine();
                 while (true) {
@@ -56,8 +60,11 @@ namespace Checkers2 {
                 } else {
                     this.turn = 1;
                 }
+                
 
             }
+            Console.WriteLine("Team " + this.turn + " wins!");
+            Console.Read();
         }
     }
 }
