@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 //1 = red
 //2 = black
 
-namespace Checkers2 {
+namespace Checkers3 {
 
     class Program {
 

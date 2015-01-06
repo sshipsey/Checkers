@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Checkers2 {
+namespace Checkers3 {
     public class Board {
 
         public List<Piece> P { get; set; }
@@ -93,6 +93,8 @@ namespace Checkers2 {
             List<Move> moves = new List<Move>();
             IEnumerable<Piece> p;
             if (player == 1) {
+                
+                //check moves to one side
                 p =
                     (from piece in P
                      where checkPosition(piece.xpos + 1, piece.ypos + 1) == 2
@@ -103,6 +105,8 @@ namespace Checkers2 {
                     foreach (Piece pi in p)
                         moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 2, pi.ypos + 2, 1));
                 }
+
+                //sliiiiiiiide to the left
                 p =
                     (from piece in P
                      where checkPosition(piece.xpos - 1, piece.ypos + 1) == 2
@@ -113,6 +117,32 @@ namespace Checkers2 {
                     foreach (Piece pi in p)
                         moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos + 2, 1));
                 }
+
+                //kings!
+                p =
+                (from piece in P
+                 where checkPosition(piece.xpos + 1, piece.ypos - 1) == 2
+                 && checkPosition(piece.xpos + 2, piece.ypos - 2) == 0
+                 && piece.team == 1
+                 && piece.isKing
+                 select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 2, pi.ypos - 2, 1));
+                }
+                //kings!
+                p =
+                (from piece in P
+                 where checkPosition(piece.xpos - 1, piece.ypos - 1) == 2
+                 && checkPosition(piece.xpos - 2, piece.ypos - 2) == 0
+                 && piece.team == 1
+                 && piece.isKing
+                 select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos - 2, 1));
+                }
+
             }
             else {
                 p =
@@ -135,6 +165,32 @@ namespace Checkers2 {
                     foreach (Piece pi in p)
                         moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos - 2, 2));
                 }
+                //kings!
+                p =
+                    (from piece in P
+                    where checkPosition(piece.xpos + 1, piece.ypos + 1) == 1
+                    && checkPosition(piece.xpos + 2, piece.ypos + 2) == 0
+                    && piece.team == 2
+                    && piece.isKing
+                    select piece);
+                    if (p != null) {
+                        foreach (Piece pi in p)
+                            moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 2, pi.ypos + 2, 2));
+                }
+
+                //kings!
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos - 1, piece.ypos + 1) == 1
+                     && checkPosition(piece.xpos - 2, piece.ypos + 2) == 0
+                     && piece.team == 2
+                     && piece.isKing
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 2, pi.ypos + 2, 2));
+                }
+
 
             }
 
@@ -167,6 +223,27 @@ namespace Checkers2 {
                     foreach (Piece pi in p)
                         moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 1, pi.ypos + 1, 1));
                 }
+                p =
+                    (from piece in P
+                    where checkPosition(piece.xpos + 1, piece.ypos - 1) == 0
+                    && piece.team == 1
+                    && piece.isKing
+                    select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 1, pi.ypos - 1, 1));
+                }
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos - 1, piece.ypos - 1) == 0
+                     && piece.team == 1
+                     && piece.isKing
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 1, pi.ypos - 1, 1));
+                }
+
             }
             else {
                 p =
@@ -188,6 +265,27 @@ namespace Checkers2 {
                         moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 1, pi.ypos - 1, 2));
                 }
 
+                //kings!
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos + 1, piece.ypos + 1) == 0
+                     && piece.team == 2
+                     && piece.isKing
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos + 1, pi.ypos + 1, 2));
+                }
+                p =
+                    (from piece in P
+                     where checkPosition(piece.xpos - 1, piece.ypos + 1) == 0
+                     && piece.team == 2
+                     && piece.isKing
+                     select piece);
+                if (p != null) {
+                    foreach (Piece pi in p)
+                        moves.Add(new Move(pi.xpos, pi.ypos, pi.xpos - 1, pi.ypos + 1, 2));
+                }
             }
             moves = moves.OrderBy(x => x.xi).ToList();
             return moves;

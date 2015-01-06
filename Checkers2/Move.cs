@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Checkers2 {
+namespace Checkers3 {
     
     public class Move {
         
